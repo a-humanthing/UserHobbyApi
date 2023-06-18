@@ -30,6 +30,7 @@ export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const { hobbies, name } = req.body;
+        const user = await User.findById(id);
         const isUserUpdated = await User.findByIdAndUpdate(id, {
             $push: { hobbies },
             name,
