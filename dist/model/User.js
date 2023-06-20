@@ -5,13 +5,13 @@ const userSchema = new Schema({
         {
             type: mongoose.Types.ObjectId,
             ref: "Hobby",
-            unique: true,
-            sparse: true,
-            validate: {
-                validator: function (hobbies) {
-                    return hobbies.length === new Set(hobbies).size;
-                },
-            },
+            // unique: true,
+            // sparse: true,
+            // validate: {
+            //   validator: function (hobbies: mongoose.Types.ObjectId[]) {
+            //     return hobbies.length === new Set(hobbies).size
+            //   },
+            // },
         },
     ],
     name: { type: String, required: true },

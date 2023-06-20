@@ -1,4 +1,5 @@
 import Hobby from "../../model/Hobby.js"
+import User from "../../model/User.js"
 import { HobbyType, ParamsType } from "./types.js"
 import { Request, Response } from "express"
 
@@ -57,7 +58,13 @@ export const deleteHobby = async (
     const { id } = req.params
     const isHobbyDeleted = await Hobby.findByIdAndDelete(id)
     if (isHobbyDeleted) {
-      return res.json({ success: true, message: "Hobby Deleted" })
+      const removeFromUsers = await User.updateMany(
+        { hobbies: { $in: [id] } },
+        { $pull: { hobbies: id } }
+      )
+      if (removeFromUsers) {
+        return res.json({ success: true, message: "Hobby Deleted" })
+      }
     }
     res.status(400).json({ success: false, message: "Hobby Delete Failed." })
   } catch (error) {
